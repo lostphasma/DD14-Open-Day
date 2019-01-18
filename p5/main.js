@@ -1,51 +1,59 @@
 var t = 0;
 var bc = 180;
-var ac = 60;
+var ac = 40;
+var m = 350;
 var cnv;
+document.body.style.backgroundColor = `rgb(${bc}, ${bc}, ${bc})`;
+
+var slidervalues = [1, 1, 1, 1];
+
+var sliders = document.getElementsByClassName('slider');
+Array.prototype.forEach.call(sliders, function (slider, index) {
+    slider.addEventListener('input', () => {
+        var label = document.getElementsByClassName('label')[index]
+        label.innerHTML = slider.value;
+        slidervalues[index] = slider.value;
+
+        console.log(slidervalues[index])
+
+        loop();
+    })
+})
 
 function setup() {
-    cnv = createCanvas(640, 480);
-    //   var width = 640;
-    //   var height = 480;
-    background(bc);
-    document.body.style.backgroundColor = `rgb(${bc}, ${bc}, ${bc}`;
+    cnv = createCanvas(720, 720);
+    clear();
+    strokeWeight(0.2);
+    stroke(ac, ac, ac);
+    noFill();
 }
 
 function draw() {
-
+    background(ac);
+    clear();
     translate(width / 2, height / 2);
-
-    strokeWeight(1);
-
-    var NUM_LINES = 0;
-
-    for (var i = 0; i <= NUM_LINES; i++) {
-        stroke(ac, map(i, 0, 12, 255, 255));
-        line(px1(t + i), py1(t + i), px2(t + i), py2(t + i));
+    beginShape();
+    for (i = 0; i < 360; i += 0.5) {
+        vertex(px(i, slidervalues[0]), py(i, slidervalues[1]));
+        vertex(px(i, slidervalues[2]), py(i, slidervalues[3]));
     }
+    endShape();
 
-    // print(t);
-    t += 0.5;
-
-}
-
-function mousePressed() {
     noLoop();
-    save(cnv, 'yo.png');
 }
 
-function px1(t) {
-    return Math.sin(t / 7) * 100;
+let pressed = 0;
+function keyPressed() {
+    if (keyIsDown(DOWN_ARROW) && pressed >= 1) {
+        save(cnv, '_.png');
+    }
+    pressed ++;
 }
 
-function py1(t) {
-    return Math.cos(t / 9) * 100;
+function px(t, f) {
+    return Math.sin(t / f) * m;
 }
 
-function px2(t) {
-    return Math.sin(t / 9) * 200;
-}
-
-function py2(t) {
-    return Math.cos(t / 7) * 200;
+function py(t, f) {
+    return Math.cos(t / f) * m;
 }
