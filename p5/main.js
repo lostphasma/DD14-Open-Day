@@ -37,17 +37,19 @@ function draw() {
         vertex(px(i, slidervalues[0]), py(i, slidervalues[1]));
         vertex(px(i, slidervalues[2]), py(i, slidervalues[3]));
     }
+
     endShape();
 
     noLoop();
 }
 
 let pressed = 0;
+
 function keyPressed() {
-    if (keyIsDown(DOWN_ARROW) && pressed >= 1) {
+    if (keyIsDown(DOWN_ARROW) && pressed >= 1) {
         save(cnv, '_.png');
     }
-    pressed ++;
+    pressed++;
 }
 
 function px(t, f) {
